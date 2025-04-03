@@ -1,0 +1,21 @@
+services: 
+  myapp:
+    build: 
+      context: . # where to find the Dockerfile (default name)
+    ports:
+      - ":5000" # port mapping (random assign)
+    volumes:
+      - ./.aws:/root/.aws:ro # root directory is the workdir set in dockerfile
+
+  nginx:
+    build: 
+      context: . 
+      dockerfile: Dockerfile.nginx
+    # image: nginx:latest
+    # volumes:
+    #   - ./nginx.conf:/etc/nginx/nginx.conf:ro # nginx configuration file, map it inside the docker system, read only
+    depends_on:
+      - myapp
+    ports: 
+      - "80:80" # listen to containers at port 80, and external world can connect at port 80 of local host ??
+
